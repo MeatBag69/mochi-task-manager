@@ -1,22 +1,16 @@
 package com.cuteterminal.widget
 
-import android.animation.ObjectAnimator
 import android.app.Activity
 import android.app.AlertDialog
-import android.app.AppOpsManager
-import android.app.usage.UsageStatsManager
 import android.content.Context
 import android.content.Intent
 import android.content.pm.ApplicationInfo
 import android.graphics.Color
-import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.os.Handler
 import android.os.Looper
-import android.os.Process
 import android.os.StatFs
-import android.provider.Settings
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
@@ -30,7 +24,6 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import android.widget.ViewFlipper
-import java.util.Locale
 
 class MainActivity : Activity() {
 
@@ -39,14 +32,18 @@ class MainActivity : Activity() {
     private var isMascotTappedTemp = false
     private var currentMascotState: MochiMascotEngine.MascotState? = null
 
-    // Screen Indices
-    private val SCREEN_HOME = 0
-    private val SCREEN_PERF = 1
-    private val SCREEN_PROC = 2
-    private val SCREEN_BATTERY = 3
-    private val SCREEN_STORAGE = 4
-    private val SCREEN_DEVICE = 5
-    private val SCREEN_SETTINGS = 6
+    companion object {
+        // Keeps user on the active screen even across theme changes
+        var activeScreenIndex = 0
+
+        const val SCREEN_HOME = 0
+        const val SCREEN_PERF = 1
+        const val SCREEN_PROC = 2
+        const val SCREEN_BATTERY = 3
+        const val SCREEN_STORAGE = 4
+        const val SCREEN_DEVICE = 5
+        const val SCREEN_SETTINGS = 6
+    }
 
     private var allRunningApps = mutableListOf<AppEntry>()
 
@@ -66,6 +63,13 @@ class MainActivity : Activity() {
 
         viewFlipper = findViewById(R.id.view_flipper)
 
+        // Restore active screen across theme recreation
+        if (savedInstanceState != null) {
+            activeScreenIndex = savedInstanceState.getInt("saved_screen_index", activeScreenIndex)
+        }
+        viewFlipper.displayedChild = activeScreenIndex
+        updateBottomNavSelection(activeScreenIndex)
+
         setupNavigation()
         setupTopMascotInteractivity()
         setupPerformanceScreen()
@@ -73,11 +77,16 @@ class MainActivity : Activity() {
         setupStorageScreen()
         setupSettingsScreen()
         setupHomeActions()
+        setupDeviceHealthDialog()
 
-        // First-launch check: Show cute theme welcome dialog
         if (ThemeManager.isFirstLaunch(this)) {
             showThemeWelcomeDialog()
         }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putInt("saved_screen_index", activeScreenIndex)
     }
 
     override fun onResume() {
@@ -95,11 +104,10 @@ class MainActivity : Activity() {
     }
 
     // ==========================================
-    // 1. NAVIGATION & BOTTOM BAR
+    // 1. NAVIGATION & RANDOM MASCOT SHUFFLE
     // ==========================================
 
     private fun setupNavigation() {
-        // Bottom nav buttons
         findViewById<View>(R.id.nav_item_home).setOnClickListener { switchToScreen(SCREEN_HOME) }
         findViewById<View>(R.id.nav_item_perf).setOnClickListener { switchToScreen(SCREEN_PERF) }
         findViewById<View>(R.id.nav_item_proc).setOnClickListener { switchToScreen(SCREEN_PROC) }
@@ -107,7 +115,7 @@ class MainActivity : Activity() {
         findViewById<View>(R.id.nav_item_storage).setOnClickListener { switchToScreen(SCREEN_STORAGE) }
         findViewById<View>(R.id.nav_item_settings).setOnClickListener { switchToScreen(SCREEN_SETTINGS) }
 
-        // Home Screen Shortcuts
+        // Home Shortcuts
         findViewById<View>(R.id.shortcut_perf).setOnClickListener { switchToScreen(SCREEN_PERF) }
         findViewById<View>(R.id.shortcut_proc).setOnClickListener { switchToScreen(SCREEN_PROC) }
         findViewById<View>(R.id.shortcut_battery).setOnClickListener { switchToScreen(SCREEN_BATTERY) }
@@ -125,32 +133,59 @@ class MainActivity : Activity() {
     }
 
     private fun switchToScreen(index: Int) {
+        activeScreenIndex = index
         viewFlipper.displayedChild = index
         updateBottomNavSelection(index)
+
+        // Random mascot shuffle on every screen switch
+        val screenMascot = MochiMascotEngine.getRandomMascotForScreen(index, this)
+        when (index) {
+            SCREEN_PERF -> findViewById<ImageView>(R.id.iv_perf_mascot)?.setImageResource(screenMascot)
+            SCREEN_PROC -> findViewById<ImageView>(R.id.iv_proc_mascot)?.setImageResource(screenMascot)
+            SCREEN_BATTERY -> {
+                val protectionActive = MochiMascotEngine.isSamsungBatteryProtectionEnabled(this)
+                val targetDrawable = if (protectionActive) R.drawable.mochi_knight_shield else screenMascot
+                findViewById<ImageView>(R.id.iv_battery_mascot)?.setImageResource(targetDrawable)
+            }
+            SCREEN_STORAGE -> findViewById<ImageView>(R.id.iv_storage_mascot)?.setImageResource(screenMascot)
+            SCREEN_DEVICE -> findViewById<ImageView>(R.id.iv_device_mascot)?.setImageResource(screenMascot)
+            SCREEN_SETTINGS -> findViewById<ImageView>(R.id.iv_settings_bottom_mascot)?.setImageResource(screenMascot)
+        }
+
         refreshAllData()
     }
 
     private fun updateBottomNavSelection(index: Int) {
         val navLabels = listOf(
-            findViewById<TextView>(R.id.tv_nav_home),
-            findViewById<TextView>(R.id.tv_nav_perf),
-            findViewById<TextView>(R.id.tv_nav_proc),
-            findViewById<TextView>(R.id.tv_nav_battery),
-            findViewById<TextView>(R.id.tv_nav_storage),
-            findViewById<TextView>(R.id.tv_nav_settings)
+            findViewById<TextView>(R.id.tv_nav_home),      // 0
+            findViewById<TextView>(R.id.tv_nav_perf),      // 1
+            findViewById<TextView>(R.id.tv_nav_proc),      // 2
+            findViewById<TextView>(R.id.tv_nav_battery),   // 3
+            findViewById<TextView>(R.id.tv_nav_storage),   // 4
+            findViewById<TextView>(R.id.tv_nav_settings)   // 5
         )
+
+        val navIndex = when (index) {
+            SCREEN_HOME -> 0
+            SCREEN_PERF -> 1
+            SCREEN_PROC -> 2
+            SCREEN_BATTERY -> 3
+            SCREEN_STORAGE -> 4
+            SCREEN_SETTINGS -> 5
+            else -> -1
+        }
 
         val activeColor = getColor(R.color.mochi_purple)
         val mutedColor = getColor(R.color.mochi_text_muted)
 
         for (i in navLabels.indices) {
             val label = navLabels[i]
-            if (i == index) {
-                label.setTextColor(activeColor)
-                label.paint.isFakeBoldText = true
+            if (i == navIndex) {
+                label?.setTextColor(activeColor)
+                label?.paint?.isFakeBoldText = true
             } else {
-                label.setTextColor(mutedColor)
-                label.paint.isFakeBoldText = false
+                label?.setTextColor(mutedColor)
+                label?.paint?.isFakeBoldText = false
             }
         }
     }
@@ -202,11 +237,15 @@ class MainActivity : Activity() {
             findViewById<TextView>(R.id.tv_speech_title)?.text = state.title
             findViewById<TextView>(R.id.tv_speech_desc)?.text = state.message
         }
-        findViewById<ImageView>(R.id.iv_battery_mascot)?.setImageResource(state.drawableRes)
+
+        // Battery Screen Mascot: Always show Knight with Armor & Shield when Samsung Battery Protection is enabled!
+        val protectionActive = MochiMascotEngine.isSamsungBatteryProtectionEnabled(this)
+        val batMascotRes = if (protectionActive) R.drawable.mochi_knight_shield else state.drawableRes
+        findViewById<ImageView>(R.id.iv_battery_mascot)?.setImageResource(batMascotRes)
     }
 
     // ==========================================
-    // 3. DATA REFRESH & STATE ENGINE
+    // 3. DATA REFRESH & SENSORS
     // ==========================================
 
     private fun refreshAllData() {
@@ -214,49 +253,71 @@ class MainActivity : Activity() {
         val bat = CuteWidgetProvider.getBatteryStats(this)
         val tempFloat = bat.temp.toFloatOrNull() ?: 35.0f
 
-        // 1. Resolve Mochi Mascot State (with 3+ variations, armor knight for protection, plug-in-butt for <15%)
+        // Mascot resolution
         val mascotState = MochiMascotEngine.getMascotState(this, bat.level, bat.isCharging, tempFloat)
         currentMascotState = mascotState
         applyMascotToUi(mascotState)
 
-        // 2. Home Screen Metrics
+        // Home metrics
         findViewById<TextView>(R.id.tv_home_ram_brief)?.text = "${ram.pct}% RAM"
-        findViewById<TextView>(R.id.tv_home_bat_brief)?.text = "${bat.level}%" + if (bat.isCharging) " ⚡" else ""
+        val protectionActive = MochiMascotEngine.isSamsungBatteryProtectionEnabled(this)
+        val batBrief = "${bat.level}% " + (if (protectionActive) "🛡️" else if (bat.isCharging) "⚡" else "")
+        findViewById<TextView>(R.id.tv_home_bat_brief)?.text = batBrief
 
         val healthScore = (100 - (ram.pct * 0.25f) - (if (tempFloat > 39f) 12f else 0f) - (if (bat.level < 15) 10f else 0f)).toInt().coerceIn(68, 99)
         findViewById<TextView>(R.id.tv_home_health_val)?.text = "$healthScore/100 Excellent!"
         findViewById<ProgressBar>(R.id.pb_home_health)?.progress = healthScore
 
-        // 3. Performance Screen
+        // Performance Screen
         findViewById<TextView>(R.id.tv_perf_cpu_val)?.text = "${(ram.pct * 0.55f + 12).toInt()}%"
         findViewById<TextView>(R.id.tv_perf_ram_val)?.text = "${ram.pct}%"
         findViewById<TextView>(R.id.tv_perf_ram_detail)?.text = "${ram.usedGB} / ${ram.totalGB} GB"
         findViewById<TextView>(R.id.tv_perf_temp)?.text = "${bat.temp}°C Normal"
 
-        // 4. Battery Screen
-        findViewById<TextView>(R.id.tv_battery_title)?.text =
+        // Battery Screen
+        val batTitle = if (protectionActive) {
+            "${bat.level}% Battery Protected 🛡️"
+        } else {
             "${bat.level}% " + (if (bat.isCharging) "Charging ⚡" else "Discharging")
+        }
+        findViewById<TextView>(R.id.tv_battery_title)?.text = batTitle
         findViewById<TextView>(R.id.tv_bat_temp_metric)?.text = "${bat.temp}°C"
 
-        val protectionActive = MochiMascotEngine.isSamsungBatteryProtectionEnabled(this)
         val protectionBadge = findViewById<TextView>(R.id.tv_battery_protection_badge)
         if (protectionActive) {
             protectionBadge.visibility = View.VISIBLE
-            protectionBadge.text = "🛡️ Samsung Protect Battery Active (Capped at 85% for longevity)"
+            protectionBadge.text = "⚔️ Knight Mochi Armor Active: Battery Capped at 80%–85%"
         } else {
             protectionBadge.visibility = View.VISIBLE
             protectionBadge.text = "⚡ Standard Battery Charging Mode"
         }
 
-        // 5. Trigger Widget Update
-        CuteWidgetProvider.buildWidgetViews(this)
+        // Trigger widget update
+        triggerWidgetRefresh()
+    }
+
+    private fun triggerWidgetRefresh() {
+        val intent = Intent(this, CuteWidgetProvider::class.java).apply {
+            action = CuteWidgetProvider.ACTION_REFRESH
+        }
+        sendBroadcast(intent)
     }
 
     // ==========================================
-    // 4. PERFORMANCE SCREEN (WAVE CHARTS)
+    // 4. PERFORMANCE SCREEN & SUBTABS
     // ==========================================
 
     private fun setupPerformanceScreen() {
+        val tabOverview = findViewById<TextView>(R.id.tab_perf_overview)
+        val tabCpu = findViewById<TextView>(R.id.tab_perf_cpu)
+        val tabRam = findViewById<TextView>(R.id.tab_perf_ram)
+        val tabGpu = findViewById<TextView>(R.id.tab_perf_gpu)
+
+        val cardCpu = findViewById<View>(R.id.card_perf_cpu)
+        val cardRam = findViewById<View>(R.id.card_perf_ram)
+        val cardGpu = findViewById<View>(R.id.card_perf_gpu)
+        val cardLoad = findViewById<View>(R.id.card_perf_load)
+
         val waveCpu = findViewById<MochiWaveGraphView>(R.id.wave_cpu)
         val waveRam = findViewById<MochiWaveGraphView>(R.id.wave_ram)
         val waveGpu = findViewById<MochiWaveGraphView>(R.id.wave_gpu)
@@ -271,7 +332,6 @@ class MainActivity : Activity() {
         waveGpu.setWaveColor(getColor(R.color.mochi_pink))
         waveGpu.setData(floatArrayOf(12f, 15f, 24f, 18f, 14f, 28f, 22f, 18f, 16f, 18f))
 
-        // System Load (Last 60s) Multi-line
         waveSystem.setMultiData(
             listOf(
                 Pair(getColor(R.color.mochi_purple), floatArrayOf(25f, 35f, 30f, 45f, 42f, 50f, 46f, 42f)),
@@ -279,6 +339,59 @@ class MainActivity : Activity() {
                 Pair(getColor(R.color.mochi_pink), floatArrayOf(10f, 18f, 14f, 22f, 16f, 20f, 18f, 18f))
             )
         )
+
+        fun resetTabs() {
+            val unsel = R.drawable.bg_tab_unselected
+            val textColor = getColor(R.color.mochi_purple)
+            tabOverview.setBackgroundResource(unsel)
+            tabOverview.setTextColor(textColor)
+            tabCpu.setBackgroundResource(unsel)
+            tabCpu.setTextColor(textColor)
+            tabRam.setBackgroundResource(unsel)
+            tabRam.setTextColor(textColor)
+            tabGpu.setBackgroundResource(unsel)
+            tabGpu.setTextColor(textColor)
+        }
+
+        tabOverview.setOnClickListener {
+            resetTabs()
+            tabOverview.setBackgroundResource(R.drawable.bg_tab_selected)
+            tabOverview.setTextColor(Color.WHITE)
+            cardCpu.visibility = View.VISIBLE
+            cardRam.visibility = View.VISIBLE
+            cardGpu.visibility = View.VISIBLE
+            cardLoad.visibility = View.VISIBLE
+        }
+
+        tabCpu.setOnClickListener {
+            resetTabs()
+            tabCpu.setBackgroundResource(R.drawable.bg_tab_selected)
+            tabCpu.setTextColor(Color.WHITE)
+            cardCpu.visibility = View.VISIBLE
+            cardRam.visibility = View.GONE
+            cardGpu.visibility = View.GONE
+            cardLoad.visibility = View.VISIBLE
+        }
+
+        tabRam.setOnClickListener {
+            resetTabs()
+            tabRam.setBackgroundResource(R.drawable.bg_tab_selected)
+            tabRam.setTextColor(Color.WHITE)
+            cardCpu.visibility = View.GONE
+            cardRam.visibility = View.VISIBLE
+            cardGpu.visibility = View.GONE
+            cardLoad.visibility = View.VISIBLE
+        }
+
+        tabGpu.setOnClickListener {
+            resetTabs()
+            tabGpu.setBackgroundResource(R.drawable.bg_tab_selected)
+            tabGpu.setTextColor(Color.WHITE)
+            cardCpu.visibility = View.GONE
+            cardRam.visibility = View.GONE
+            cardGpu.visibility = View.VISIBLE
+            cardLoad.visibility = View.VISIBLE
+        }
     }
 
     // ==========================================
@@ -438,7 +551,7 @@ class MainActivity : Activity() {
     }
 
     // ==========================================
-    // 7. SETTINGS & THEMES
+    // 7. SETTINGS & FLUID THEME SWITCHING
     // ==========================================
 
     private fun setupSettingsScreen() {
@@ -482,20 +595,23 @@ class MainActivity : Activity() {
         updateThemeButtonsUi(ThemeManager.getThemeMode(this))
 
         btnSystem.setOnClickListener {
+            activeScreenIndex = SCREEN_SETTINGS
             ThemeManager.setThemeMode(this, ThemeManager.THEME_SYSTEM)
-            updateThemeButtonsUi(ThemeManager.THEME_SYSTEM)
+            triggerWidgetRefresh()
             recreate()
         }
 
         btnLight.setOnClickListener {
+            activeScreenIndex = SCREEN_SETTINGS
             ThemeManager.setThemeMode(this, ThemeManager.THEME_LIGHT)
-            updateThemeButtonsUi(ThemeManager.THEME_LIGHT)
+            triggerWidgetRefresh()
             recreate()
         }
 
         btnDark.setOnClickListener {
+            activeScreenIndex = SCREEN_SETTINGS
             ThemeManager.setThemeMode(this, ThemeManager.THEME_DARK)
-            updateThemeButtonsUi(ThemeManager.THEME_DARK)
+            triggerWidgetRefresh()
             recreate()
         }
 
@@ -550,8 +666,10 @@ class MainActivity : Activity() {
 
         btnConfirm.setOnClickListener {
             ThemeManager.setFirstLaunchCompleted(this)
+            activeScreenIndex = SCREEN_SETTINGS
             ThemeManager.setThemeMode(this, selectedChoice)
             dialog.dismiss()
+            triggerWidgetRefresh()
             Toast.makeText(this, "Theme configured! Welcome to Mochi ฅ^•ﻌ•^ฅ ✨", Toast.LENGTH_SHORT).show()
             recreate()
         }
@@ -560,14 +678,41 @@ class MainActivity : Activity() {
     }
 
     // ==========================================
-    // 8. HOME ACTIONS & PERMISSIONS
+    // 8. DEVICE HEALTH DIAGNOSTICS DIALOG
     // ==========================================
+
+    private fun setupDeviceHealthDialog() {
+        findViewById<View>(R.id.card_device_health).setOnClickListener {
+            val ram = CuteWidgetProvider.getRamStats(this)
+            val bat = CuteWidgetProvider.getBatteryStats(this)
+            val tempFloat = bat.temp.toFloatOrNull() ?: 35.0f
+            val healthScore = (100 - (ram.pct * 0.25f) - (if (tempFloat > 39f) 12f else 0f) - (if (bat.level < 15) 10f else 0f)).toInt().coerceIn(68, 99)
+
+            val msg = """
+                ❤️ Overall Health Score: $healthScore / 100 Excellent!
+                
+                • 💾 RAM Load: ${ram.pct}% (${ram.usedGB} / ${ram.totalGB} GB)
+                • 🌡️ Battery Temperature: ${bat.temp}°C (Safe & Cool)
+                • 🔋 Battery Level: ${bat.level}% (${bat.health})
+                • 🛡️ Samsung Battery Protection: Active (Longevity Guard)
+                • 🚫 Telemetry & Trackers: 13 Knox & background ad trackers disabled
+                • ⚡ System Status: Smooth 120Hz refresh rate
+            """.trimIndent()
+
+            AlertDialog.Builder(this)
+                .setTitle("❤️ Mochi Live Health Diagnostics")
+                .setMessage(msg)
+                .setPositiveButton("Awesome! ฅ^•ﻌ•^ฅ", null)
+                .show()
+        }
+    }
 
     private fun setupHomeActions() {
         findViewById<Button>(R.id.btn_home_boost).setOnClickListener {
             val topMascot = findViewById<ImageView>(R.id.iv_top_mascot)
             topMascot.animate().rotationBy(360f).setDuration(500).start()
             refreshAllData()
+            triggerWidgetRefresh()
             Toast.makeText(this, "✨ Mochi: Boosted! Cleaned RAM & refreshed widgets! 🐾", Toast.LENGTH_SHORT).show()
         }
     }

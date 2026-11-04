@@ -40,17 +40,29 @@ object ThemeManager {
 
     fun applyTheme(activity: Activity, mode: String? = null) {
         val selectedMode = mode ?: getThemeMode(activity)
+        val targetNightMode = when (selectedMode) {
+            THEME_LIGHT -> UiModeManager.MODE_NIGHT_NO
+            THEME_DARK -> UiModeManager.MODE_NIGHT_YES
+            else -> UiModeManager.MODE_NIGHT_AUTO
+        }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             val uiModeManager = activity.getSystemService(Context.UI_MODE_SERVICE) as? UiModeManager
-            if (uiModeManager != null) {
-                val targetNightMode = when (selectedMode) {
-                    THEME_LIGHT -> UiModeManager.MODE_NIGHT_NO
-                    THEME_DARK -> UiModeManager.MODE_NIGHT_YES
-                    else -> UiModeManager.MODE_NIGHT_AUTO
-                }
-                uiModeManager.setApplicationNightMode(targetNightMode)
+            uiModeManager?.setApplicationNightMode(targetNightMode)
+        }
+
+        // Synchronously update activity resources configuration so recreate() instantly picks up new theme
+        val config = Configuration(activity.resources.configuration)
+        val newUiMode = when (selectedMode) {
+            THEME_LIGHT -> Configuration.UI_MODE_NIGHT_NO
+            THEME_DARK -> Configuration.UI_MODE_NIGHT_YES
+            else -> {
+                // In system mode, follow system uiMode
+                activity.applicationContext.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
             }
         }
+        config.uiMode = (config.uiMode and Configuration.UI_MODE_NIGHT_MASK.inv()) or newUiMode
+        @Suppress("DEPRECATION")
+        activity.resources.updateConfiguration(config, activity.resources.displayMetrics)
     }
 
     fun isDarkMode(context: Context): Boolean {

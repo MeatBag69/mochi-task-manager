@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="rectangle">
-    <solid android:color="#FDF8FF" />
+    <solid android:color="@color/mochi_bg_card" />
     <corners android:radius="22dp" />
     <stroke
         android:width="2dp"
-        android:color="#D8B4FE" />
+        android:color="@color/mochi_card_stroke" />
 </shape>

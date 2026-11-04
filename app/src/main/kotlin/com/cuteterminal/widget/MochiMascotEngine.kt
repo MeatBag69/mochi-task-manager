@@ -8,11 +8,10 @@ object MochiMascotEngine {
 
     private val random = Random()
     private var tapIndex = 0
-    private var lastChargingState = false
 
-    // Tap interactive reactions (2-4 variations)
+    // Tap interactive reactions
     private val tapSprites = listOf(
-        R.drawable.mochi_tap_1,
+        R.drawable.mochi_main,
         R.drawable.mochi_tap_2,
         R.drawable.mochi_tap_3,
         R.drawable.mochi_tap_4
@@ -22,7 +21,7 @@ object MochiMascotEngine {
         "ฅ^•ﻌ•^ฅ *boop!* You poked Mochi!",
         "(✿◠‿◠) Hehe, that tickles! Systems running at peak speed!",
         "✨ System Boosted! All background bloat kept in check!",
-        "🛡️ Mochi is guarding your Galaxy S21 FE 24/7!"
+        "🛡️ Knight Mochi is guarding your Galaxy S21 FE 24/7!"
     )
 
     // Battery stages - At least 3 variations each
@@ -58,9 +57,9 @@ object MochiMascotEngine {
 
     // Battery protection mode: Knight with armor & shield/spear
     val protectSprites = listOf(
+        R.drawable.mochi_knight_shield,
         R.drawable.mochi_protect_1,
-        R.drawable.mochi_protect_2,
-        R.drawable.mochi_protect_3
+        R.drawable.mochi_protect_2
     )
 
     // Active charging
@@ -120,8 +119,8 @@ object MochiMascotEngine {
             )
         }
 
-        // 2. Battery Protection Mode (Plugged in with Samsung Protect Battery enabled)
-        if (isCharging && protectionActive && level >= 79) {
+        // 2. Battery Protection Mode (Samsung Protect Battery enabled & level around 80-85% or plugged in)
+        if (protectionActive && (level in 78..86 || isCharging)) {
             val sprite = protectSprites[random.nextInt(protectSprites.size)]
             return MascotState(
                 drawableRes = sprite,
@@ -208,5 +207,22 @@ object MochiMascotEngine {
             title = "Mochi Interaction! ✨",
             message = phrase
         )
+    }
+
+    /**
+     * Randomly picks a cute mascot for a specific screen so navigating shuffles through characters!
+     */
+    fun getRandomMascotForScreen(screenIndex: Int, context: Context): Int {
+        val protectionActive = isSamsungBatteryProtectionEnabled(context)
+        return when (screenIndex) {
+            0 -> listOf(R.drawable.mochi_main, R.drawable.mochi_happy, R.drawable.mochi_bat_good_1, R.drawable.mochi_king)[random.nextInt(4)]
+            1 -> listOf(R.drawable.mochi_working, R.drawable.mochi_bat_mid_1, R.drawable.mochi_unplug_1)[random.nextInt(3)]
+            2 -> listOf(R.drawable.mochi_tap_2, R.drawable.mochi_working, R.drawable.mochi_bat_mid_2)[random.nextInt(3)]
+            3 -> if (protectionActive) R.drawable.mochi_knight_shield else listOf(R.drawable.mochi_charge_1, R.drawable.mochi_bat_good_1, R.drawable.mochi_battery_power)[random.nextInt(3)]
+            4 -> listOf(R.drawable.mochi_astronaut, R.drawable.mochi_bat_low_2, R.drawable.mochi_tap_3)[random.nextInt(3)]
+            5 -> listOf(R.drawable.mochi_doctor, R.drawable.mochi_bat_good_3, R.drawable.mochi_main)[random.nextInt(3)]
+            6 -> listOf(R.drawable.mochi_peek, R.drawable.mochi_bat_good_2, R.drawable.mochi_king)[random.nextInt(3)]
+            else -> R.drawable.mochi_main
+        }
     }
 }

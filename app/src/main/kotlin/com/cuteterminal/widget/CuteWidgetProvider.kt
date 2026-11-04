@@ -10,6 +10,8 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.content.res.Configuration
+import android.graphics.Color
 import android.os.BatteryManager
 import android.widget.RemoteViews
 import java.io.BufferedReader
@@ -51,7 +53,28 @@ class CuteWidgetProvider : AppWidgetProvider() {
             val timeStr = timeFmt.format(Date())
             views.setTextViewText(R.id.btn_refresh, "⟳ $timeStr")
 
-            // 1. RAM Calculation from /proc/meminfo (True hardware live data)
+            // Theme Mode Adaptation (Respects App Settings + System Default)
+            val isDark = ThemeManager.isDarkMode(context)
+
+            if (isDark) {
+                views.setInt(R.id.widget_root, "setBackgroundResource", R.drawable.bg_mochi_widget_dark)
+                views.setTextColor(R.id.tv_title, Color.parseColor("#F5EEFF"))
+                views.setTextColor(R.id.tv_ram_detail, Color.parseColor("#D8B4FE"))
+                views.setTextColor(R.id.tv_proc1, Color.parseColor("#F5EEFF"))
+                views.setTextColor(R.id.tv_proc2, Color.parseColor("#F5EEFF"))
+                views.setTextColor(R.id.tv_proc3, Color.parseColor("#F5EEFF"))
+                views.setTextColor(R.id.tv_reaction_status, Color.parseColor("#C084FC"))
+            } else {
+                views.setInt(R.id.widget_root, "setBackgroundResource", R.drawable.bg_mochi_widget_light)
+                views.setTextColor(R.id.tv_title, Color.parseColor("#2D1B4E"))
+                views.setTextColor(R.id.tv_ram_detail, Color.parseColor("#2D1B4E"))
+                views.setTextColor(R.id.tv_proc1, Color.parseColor("#2D1B4E"))
+                views.setTextColor(R.id.tv_proc2, Color.parseColor("#2D1B4E"))
+                views.setTextColor(R.id.tv_proc3, Color.parseColor("#2D1B4E"))
+                views.setTextColor(R.id.tv_reaction_status, Color.parseColor("#A855F7"))
+            }
+
+            // 1. RAM Calculation from /proc/meminfo
             val ramInfo = getRamStats(context)
             val barLen = 10
             val filled = ((ramInfo.pct / 100.0) * barLen).toInt().coerceIn(0, barLen)
@@ -62,24 +85,24 @@ class CuteWidgetProvider : AppWidgetProvider() {
                 "RAM: [$bar] ${ramInfo.pct}% (${ramInfo.usedGB} / ${ramInfo.totalGB} GB)"
             )
 
-            // 2. Battery & Temperature (True live data from battery manager)
+            // 2. Battery & Temperature
             val batInfo = getBatteryStats(context)
             val batText = "${batInfo.level}%" + if (batInfo.isCharging) " ⚡" else ""
             views.setTextViewText(R.id.tv_bat_pct, batText)
 
-            // 3. CPU estimate based on active load & thermal
+            // 3. CPU estimate based on load & thermal
             val tempFloat = batInfo.temp.toFloatOrNull() ?: 36.0f
             val cpuPct = (28 + ((tempFloat - 34.0f).coerceAtLeast(0f) * 3.5f) + (ramInfo.pct * 0.15f)).toInt().coerceIn(12, 92)
             views.setTextViewText(R.id.tv_cpu_pct, "$cpuPct%")
 
-            // 4. Calculate Device Health Score (0 to 100)
+            // 4. Device Health Score
             val healthScore = (100 - (ramInfo.pct * 0.25f) - (if (tempFloat > 39f) 15f else 0f) - (if (batInfo.level < 15) 10f else 0f)).toInt().coerceIn(65, 99)
             views.setTextViewText(R.id.tv_health_status, "Device Health: $healthScore/100 Excellent!")
 
-            // 5. Dynamic Mochi Reaction Avatar & Speech
-            val reaction = determineMochiReaction(batInfo, ramInfo, tempFloat)
-            views.setImageViewResource(R.id.iv_mochi_mascot, reaction.drawableRes)
-            views.setTextViewText(R.id.tv_reaction_status, reaction.message)
+            // 5. Dynamic Mochi Mascot (Shield / Knight when protected!)
+            val mascotState = MochiMascotEngine.getMascotState(context, batInfo.level, batInfo.isCharging, tempFloat)
+            views.setImageViewResource(R.id.iv_mochi_mascot, mascotState.drawableRes)
+            views.setTextViewText(R.id.tv_reaction_status, mascotState.message)
 
             // 6. Live Active Applications
             val procs = getRunningProcesses(context)
@@ -104,41 +127,15 @@ class CuteWidgetProvider : AppWidgetProvider() {
                 PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
             )
             views.setOnClickPendingIntent(R.id.btn_refresh, pendingIntent)
-            views.setOnClickPendingIntent(R.id.widget_root, pendingIntent)
+
+            // Click root opens MainActivity
+            val appIntent = Intent(context, MainActivity::class.java)
+            val appPendingIntent = PendingIntent.getActivity(
+                context, 0, appIntent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+            )
+            views.setOnClickPendingIntent(R.id.widget_root, appPendingIntent)
 
             return views
-        }
-
-        data class MochiReaction(val drawableRes: Int, val title: String, val message: String)
-
-        internal fun determineMochiReaction(bat: BatteryStats, ram: RamStats, temp: Float): MochiReaction {
-            return when {
-                bat.isCharging -> MochiReaction(
-                    R.drawable.react_charging,
-                    "Powering up!",
-                    "⚡ Powering up! Charging at ${bat.level}% · Healthy battery"
-                )
-                temp > 39.5f -> MochiReaction(
-                    R.drawable.react_cooling,
-                    "Cooling down!",
-                    "❄️ Whew, device is warm (${bat.temp}°C)! Cooling down with fan"
-                )
-                bat.level < 20 -> MochiReaction(
-                    R.drawable.react_low_bat,
-                    "Low battery!",
-                    "🔋 Battery is at ${bat.level}% · Please plug in charger soon!"
-                )
-                ram.pct > 82 -> MochiReaction(
-                    R.drawable.react_working,
-                    "Working hard!",
-                    "💻 High usage! Mochi is managing background memory"
-                )
-                else -> MochiReaction(
-                    R.drawable.react_healthy,
-                    "All Good!",
-                    "✿ ( ˶•̀ᴗ•́˶) Mochi: All systems running smooth! 🐾"
-                )
-            }
         }
 
         internal data class RamStats(val totalGB: String, val usedGB: String, val pct: Int)
@@ -167,7 +164,6 @@ class CuteWidgetProvider : AppWidgetProvider() {
                 }
             } catch (_: Exception) {}
 
-            // Fallback via ActivityManager
             val am = context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
             val mem = ActivityManager.MemoryInfo()
             am.getMemoryInfo(mem)
@@ -212,7 +208,6 @@ class CuteWidgetProvider : AppWidgetProvider() {
                 val now = System.currentTimeMillis()
                 val recentAppsMap = LinkedHashMap<String, Long>()
 
-                // 1. Check UsageEvents from last 24 hours
                 try {
                     val events = usm.queryEvents(now - 1000 * 3600 * 24, now)
                     val event = UsageEvents.Event()
@@ -228,7 +223,6 @@ class CuteWidgetProvider : AppWidgetProvider() {
                     }
                 } catch (_: Exception) {}
 
-                // 2. Check Daily & Weekly UsageStats
                 try {
                     val stats = usm.queryUsageStats(UsageStatsManager.INTERVAL_BEST, now - 1000 * 3600 * 48, now)
                     if (!stats.isNullOrEmpty()) {
@@ -244,7 +238,6 @@ class CuteWidgetProvider : AppWidgetProvider() {
                     }
                 } catch (_: Exception) {}
 
-                // Sort by last active timestamp
                 val sortedPkgs = recentAppsMap.entries
                     .sortedByDescending { it.value }
                     .take(8)
@@ -274,7 +267,6 @@ class CuteWidgetProvider : AppWidgetProvider() {
                 }
             }
 
-            // Fallback to active system services if list still small
             if (list.size < 3) {
                 val fallbacks = listOf(
                     ProcInfo("One UI Home", 185, "active"),

@@ -3,6 +3,7 @@
     android:id="@+id/root_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     android:background="@color/mochi_bg">
 
     <!-- ViewFlipper holding all 7 screens -->
@@ -18,7 +19,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fillViewport="true"
-            android:padding="16dp">
+            android:paddingHorizontal="16dp"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -29,7 +32,6 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
 
@@ -64,7 +66,7 @@
                             android:textSize="11.5sp" />
                     </LinearLayout>
 
-                    <!-- Interactive Top Mascot (Tap 1-2 times to play animations/reactions!) -->
+                    <!-- Interactive Top Mascot (Tap to play animations & reactions!) -->
                     <ImageView
                         android:id="@+id/iv_top_mascot"
                         android:layout_width="85dp"
@@ -76,12 +78,15 @@
                         android:src="@drawable/mochi_main" />
                 </LinearLayout>
 
-                <!-- Device Health Card (Matching Concept 1) -->
+                <!-- Device Health Card (Clickable to view diagnostics breakdown!) -->
                 <LinearLayout
+                    android:id="@+id/card_device_health"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="14dp"
                     android:background="@drawable/bg_mochi_card"
+                    android:clickable="true"
+                    android:focusable="true"
                     android:orientation="vertical"
                     android:padding="14dp">
 
@@ -91,12 +96,19 @@
                         android:gravity="center_vertical"
                         android:orientation="horizontal">
 
+                        <ImageView
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:scaleType="fitCenter"
+                            android:src="@drawable/icon_stat_heart" />
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="❤️ Device Health"
+                            android:layout_marginStart="6dp"
+                            android:text="Device Health (Tap for details ℹ️)"
                             android:textColor="@color/mochi_purple_dark"
-                            android:textSize="13sp"
+                            android:textSize="12.5sp"
                             android:textStyle="bold" />
 
                         <TextView
@@ -106,7 +118,7 @@
                             android:layout_marginStart="8dp"
                             android:layout_weight="1"
                             android:gravity="end"
-                            android:text="94/100 Excellent!"
+                            android:text="82/100 Excellent!"
                             android:textColor="@color/mochi_mint"
                             android:textSize="13.5sp"
                             android:textStyle="bold" />
@@ -119,7 +131,7 @@
                         android:layout_height="9dp"
                         android:layout_marginTop="8dp"
                         android:max="100"
-                        android:progress="94"
+                        android:progress="82"
                         android:progressTint="@color/mochi_mint" />
                 </LinearLayout>
 
@@ -168,7 +180,7 @@
                     </LinearLayout>
                 </LinearLayout>
 
-                <!-- 6 Shortcuts Grid -->
+                <!-- 6 Shortcuts Grid with Cute Pastel Icons -->
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -199,11 +211,11 @@
                         android:orientation="vertical"
                         android:padding="14dp">
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="📈"
-                            android:textSize="22sp" />
+                        <ImageView
+                            android:layout_width="28dp"
+                            android:layout_height="28dp"
+                            android:scaleType="fitCenter"
+                            android:src="@drawable/icon_nav_perf" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -237,11 +249,11 @@
                         android:orientation="vertical"
                         android:padding="14dp">
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="⚙️"
-                            android:textSize="22sp" />
+                        <ImageView
+                            android:layout_width="28dp"
+                            android:layout_height="28dp"
+                            android:scaleType="fitCenter"
+                            android:src="@drawable/icon_nav_proc" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -283,11 +295,11 @@
                         android:orientation="vertical"
                         android:padding="14dp">
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="🔋"
-                            android:textSize="22sp" />
+                        <ImageView
+                            android:layout_width="28dp"
+                            android:layout_height="28dp"
+                            android:scaleType="fitCenter"
+                            android:src="@drawable/icon_nav_bat" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -302,7 +314,7 @@
                             android:id="@+id/tv_home_bat_brief"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="82% ⚡"
+                            android:text="80% 🛡️"
                             android:textColor="@color/mochi_peach"
                             android:textSize="10.5sp" />
                     </LinearLayout>
@@ -321,11 +333,11 @@
                         android:orientation="vertical"
                         android:padding="14dp">
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="💾"
-                            android:textSize="22sp" />
+                        <ImageView
+                            android:layout_width="28dp"
+                            android:layout_height="28dp"
+                            android:scaleType="fitCenter"
+                            android:src="@drawable/icon_nav_storage" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -340,7 +352,7 @@
                             android:id="@+id/tv_home_storage_brief"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="50% (128 GB)"
+                            android:text="96% (217 GB)"
                             android:textColor="@color/mochi_cyan"
                             android:textSize="10.5sp" />
                     </LinearLayout>
@@ -367,11 +379,11 @@
                         android:orientation="vertical"
                         android:padding="14dp">
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="📱"
-                            android:textSize="22sp" />
+                        <ImageView
+                            android:layout_width="28dp"
+                            android:layout_height="28dp"
+                            android:scaleType="fitCenter"
+                            android:src="@drawable/icon_nav_home" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -404,11 +416,11 @@
                         android:orientation="vertical"
                         android:padding="14dp">
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="⚙️"
-                            android:textSize="22sp" />
+                        <ImageView
+                            android:layout_width="28dp"
+                            android:layout_height="28dp"
+                            android:scaleType="fitCenter"
+                            android:src="@drawable/icon_nav_settings" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -457,7 +469,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp" />
 
-                <!-- Bottom spacer for bottom navigation bar -->
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="24dp" />
@@ -470,7 +481,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fillViewport="true"
-            android:padding="16dp">
+            android:paddingHorizontal="16dp"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -505,8 +518,10 @@
                         android:textStyle="bold" />
 
                     <ImageView
-                        android:layout_width="38dp"
-                        android:layout_height="38dp"
+                        android:id="@+id/iv_perf_mascot"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:scaleType="fitCenter"
                         android:src="@drawable/mochi_working" />
                 </LinearLayout>
 
@@ -569,6 +584,7 @@
 
                 <!-- CPU Card with Wave Graph -->
                 <LinearLayout
+                    android:id="@+id/card_perf_cpu"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
@@ -620,6 +636,7 @@
 
                 <!-- RAM Card with Wave Graph -->
                 <LinearLayout
+                    android:id="@+id/card_perf_ram"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
@@ -671,6 +688,7 @@
 
                 <!-- GPU Card with Wave Graph -->
                 <LinearLayout
+                    android:id="@+id/card_perf_gpu"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
@@ -693,6 +711,7 @@
                             android:textStyle="bold" />
 
                         <TextView
+                            android:id="@+id/tv_perf_gpu_val"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
@@ -785,6 +804,7 @@
 
                 <!-- System Load Last 60s Card -->
                 <LinearLayout
+                    android:id="@+id/card_perf_load"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
@@ -850,7 +870,9 @@
             android:id="@+id/screen_processes"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="16dp">
+            android:paddingHorizontal="16dp"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp">
 
             <LinearLayout
                 android:id="@+id/proc_header_layout"
@@ -886,9 +908,11 @@
                         android:textStyle="bold" />
 
                     <ImageView
-                        android:layout_width="38dp"
-                        android:layout_height="38dp"
-                        android:src="@drawable/mochi_working" />
+                        android:id="@+id/iv_proc_mascot"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/mochi_tap_2" />
                 </LinearLayout>
 
                 <!-- Running / System Tabs -->
@@ -974,7 +998,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fillViewport="true"
-            android:padding="16dp">
+            android:paddingHorizontal="16dp"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -1009,9 +1035,10 @@
                         android:textStyle="bold" />
 
                     <ImageView
+                        android:id="@+id/iv_bat_header_icon"
                         android:layout_width="38dp"
                         android:layout_height="38dp"
-                        android:src="@drawable/mochi_charging" />
+                        android:src="@drawable/icon_nav_bat" />
                 </LinearLayout>
 
                 <!-- Big Battery Status Card with Mascot -->
@@ -1024,21 +1051,22 @@
                     android:orientation="vertical"
                     android:padding="18dp">
 
+                    <!-- Mascot: Displays Knight with Armor & Shield when Samsung Battery Protection is enabled! -->
                     <ImageView
                         android:id="@+id/iv_battery_mascot"
-                        android:layout_width="110dp"
-                        android:layout_height="110dp"
+                        android:layout_width="120dp"
+                        android:layout_height="120dp"
                         android:scaleType="fitCenter"
-                        android:src="@drawable/mochi_protect_1" />
+                        android:src="@drawable/mochi_knight_shield" />
 
                     <TextView
                         android:id="@+id/tv_battery_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:text="85% Charging ⚡"
+                        android:text="80% Battery Protected 🛡️"
                         android:textColor="@color/mochi_purple_dark"
-                        android:textSize="24sp"
+                        android:textSize="22sp"
                         android:textStyle="bold" />
 
                     <TextView
@@ -1049,7 +1077,7 @@
                         android:background="@drawable/bg_mochi_pill"
                         android:paddingHorizontal="12dp"
                         android:paddingVertical="4dp"
-                        android:text="🛡️ Samsung Battery Protection Active (Capped at 85%)"
+                        android:text="⚔️ Knight Mochi Armor Active: Battery Capped at 80%–85%"
                         android:textColor="@color/mochi_purple"
                         android:textSize="11sp"
                         android:textStyle="bold" />
@@ -1186,7 +1214,6 @@
                         android:textSize="13sp"
                         android:textStyle="bold" />
 
-                    <!-- App 1: Screen -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -1211,7 +1238,6 @@
                             android:textStyle="bold" />
                     </LinearLayout>
 
-                    <!-- App 2: YouTube -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -1236,7 +1262,6 @@
                             android:textStyle="bold" />
                     </LinearLayout>
 
-                    <!-- App 3: Chrome -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -1274,7 +1299,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fillViewport="true"
-            android:padding="16dp">
+            android:paddingHorizontal="16dp"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -1309,9 +1336,10 @@
                         android:textStyle="bold" />
 
                     <ImageView
+                        android:id="@+id/iv_storage_header_icon"
                         android:layout_width="38dp"
                         android:layout_height="38dp"
-                        android:src="@drawable/mochi_happy" />
+                        android:src="@drawable/icon_nav_storage" />
                 </LinearLayout>
 
                 <!-- Donut Chart & Category Breakdown Card -->
@@ -1406,12 +1434,53 @@
                     </LinearLayout>
                 </LinearLayout>
 
+                <!-- Mochi Storage Mascot Card -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:background="@drawable/bg_mochi_pill"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:padding="12dp">
+
+                    <ImageView
+                        android:id="@+id/iv_storage_mascot"
+                        android:layout_width="54dp"
+                        android:layout_height="54dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/mochi_astronaut" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Mochi Storage Maid 🧹"
+                            android:textColor="@color/mochi_purple_dark"
+                            android:textSize="13sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Ready to vacuum junk files &amp; free space!"
+                            android:textColor="@color/mochi_text_secondary"
+                            android:textSize="11sp" />
+                    </LinearLayout>
+                </LinearLayout>
+
                 <!-- Analyze & Clean Button -->
                 <Button
                     android:id="@+id/btn_clean_storage"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
-                    android:layout_marginTop="14dp"
+                    android:layout_marginTop="12dp"
                     android:background="@drawable/bg_mochi_btn"
                     android:text="🧹 Analyze &amp; Clean Storage"
                     android:textColor="#FFFFFF"
@@ -1557,7 +1626,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fillViewport="true"
-            android:padding="16dp">
+            android:paddingHorizontal="16dp"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -1592,9 +1663,11 @@
                         android:textStyle="bold" />
 
                     <ImageView
-                        android:layout_width="38dp"
-                        android:layout_height="38dp"
-                        android:src="@drawable/mochi_main" />
+                        android:id="@+id/iv_device_mascot"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/mochi_doctor" />
                 </LinearLayout>
 
                 <!-- Phone Banner -->
@@ -1607,11 +1680,11 @@
                     android:orientation="horizontal"
                     android:padding="14dp">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="📱"
-                        android:textSize="36sp" />
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/icon_nav_home" />
 
                     <LinearLayout
                         android:layout_width="0dp"
@@ -1768,7 +1841,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fillViewport="true"
-            android:padding="16dp">
+            android:paddingHorizontal="16dp"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -1803,9 +1878,10 @@
                         android:textStyle="bold" />
 
                     <ImageView
+                        android:id="@+id/iv_settings_header_icon"
                         android:layout_width="38dp"
                         android:layout_height="38dp"
-                        android:src="@drawable/mochi_main" />
+                        android:src="@drawable/icon_nav_settings" />
                 </LinearLayout>
 
                 <!-- Theme Selection Card -->
@@ -1939,6 +2015,47 @@
                         android:textSize="11.5sp" />
                 </LinearLayout>
 
+                <!-- Mochi Peeking Mascot at Bottom of Settings -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="14dp"
+                    android:background="@drawable/bg_mochi_pill"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:padding="12dp">
+
+                    <ImageView
+                        android:id="@+id/iv_settings_bottom_mascot"
+                        android:layout_width="56dp"
+                        android:layout_height="56dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/mochi_peek" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="ฅ^•ﻌ•^ฅ Mochi is watching over you!"
+                            android:textColor="@color/mochi_purple_dark"
+                            android:textSize="12.5sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Keeping background apps fast, cool &amp; bloat-free 24/7."
+                            android:textColor="@color/mochi_text_secondary"
+                            android:textSize="11sp" />
+                    </LinearLayout>
+                </LinearLayout>
+
                 <!-- About & Repo Card -->
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -1976,7 +2093,7 @@
     <LinearLayout
         android:id="@+id/bottom_nav_bar"
         android:layout_width="match_parent"
-        android:layout_height="62dp"
+        android:layout_height="64dp"
         android:layout_alignParentBottom="true"
         android:background="@drawable/bg_mochi_card"
         android:elevation="12dp"
@@ -1995,16 +2112,18 @@
             android:gravity="center"
             android:orientation="vertical">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="🏠"
-                android:textSize="18sp" />
+            <ImageView
+                android:id="@+id/iv_nav_home"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/icon_nav_home" />
 
             <TextView
                 android:id="@+id/tv_nav_home"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
                 android:text="Home"
                 android:textColor="@color/mochi_purple"
                 android:textSize="10.5sp"
@@ -2022,16 +2141,18 @@
             android:gravity="center"
             android:orientation="vertical">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="📈"
-                android:textSize="18sp" />
+            <ImageView
+                android:id="@+id/iv_nav_perf"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/icon_nav_perf" />
 
             <TextView
                 android:id="@+id/tv_nav_perf"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
                 android:text="Perf"
                 android:textColor="@color/mochi_text_muted"
                 android:textSize="10.5sp" />
@@ -2048,16 +2169,18 @@
             android:gravity="center"
             android:orientation="vertical">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="⚙️"
-                android:textSize="18sp" />
+            <ImageView
+                android:id="@+id/iv_nav_proc"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/icon_nav_proc" />
 
             <TextView
                 android:id="@+id/tv_nav_proc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
                 android:text="Apps"
                 android:textColor="@color/mochi_text_muted"
                 android:textSize="10.5sp" />
@@ -2074,16 +2197,18 @@
             android:gravity="center"
             android:orientation="vertical">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="🔋"
-                android:textSize="18sp" />
+            <ImageView
+                android:id="@+id/iv_nav_battery"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/icon_nav_bat" />
 
             <TextView
                 android:id="@+id/tv_nav_battery"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
                 android:text="Battery"
                 android:textColor="@color/mochi_text_muted"
                 android:textSize="10.5sp" />
@@ -2100,16 +2225,18 @@
             android:gravity="center"
             android:orientation="vertical">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="💾"
-                android:textSize="18sp" />
+            <ImageView
+                android:id="@+id/iv_nav_storage"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/icon_nav_storage" />
 
             <TextView
                 android:id="@+id/tv_nav_storage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
                 android:text="Storage"
                 android:textColor="@color/mochi_text_muted"
                 android:textSize="10.5sp" />
@@ -2126,16 +2253,18 @@
             android:gravity="center"
             android:orientation="vertical">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="🛠️"
-                android:textSize="18sp" />
+            <ImageView
+                android:id="@+id/iv_nav_settings"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/icon_nav_settings" />
 
             <TextView
                 android:id="@+id/tv_nav_settings"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
                 android:text="Settings"
                 android:textColor="@color/mochi_text_muted"
                 android:textSize="10.5sp" />
