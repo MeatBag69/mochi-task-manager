@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Mochi Task Manager 🐾</string>
+    <string name="widget_title">Mochi Task Manager</string>
+    <string name="widget_description">A cute but powerful Android system monitor and task manager</string>
+</resources>

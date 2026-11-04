@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Mochi Task Manager Pastel Palette -->
+    <color name="mochi_bg">#FAF5FF</color>
+    <color name="mochi_bg_card">#FFFFFF</color>
+    <color name="mochi_card_stroke">#E9D5FF</color>
+    <color name="mochi_card_pill">#F3E8FF</color>
+
+    <color name="mochi_purple">#A855F7</color>
+    <color name="mochi_purple_light">#C084FC</color>
+    <color name="mochi_purple_dark">#2E1065</color>
+    <color name="mochi_pink">#F472B6</color>
+    <color name="mochi_pink_light">#FBCFE8</color>
+    <color name="mochi_mint">#34D399</color>
+    <color name="mochi_mint_light">#D1FAE5</color>
+    <color name="mochi_peach">#FB923C</color>
+    <color name="mochi_peach_light">#FFEDD5</color>
+    <color name="mochi_cyan">#38BDF8</color>
+    <color name="mochi_cyan_light">#E0F2FE</color>
+
+    <color name="mochi_text_primary">#2D1B4E</color>
+    <color name="mochi_text_secondary">#7E69AB</color>
+    <color name="mochi_text_muted">#A78BFA</color>
+
+    <!-- Backward-compatible Aliases -->
+    <color name="bg_base">#FAF5FF</color>
+    <color name="bg_surface">#FAF5FF</color>
+    <color name="bg_card">#F3E8FF</color>
+    <color name="border_cute">#E9D5FF</color>
+    <color name="accent_pink">#F472B6</color>
+    <color name="accent_lavender">#C084FC</color>
+    <color name="accent_mint">#34D399</color>
+    <color name="accent_peach">#FB923C</color>
+    <color name="accent_cyan">#38BDF8</color>
+    <color name="text_primary">#2D1B4E</color>
+    <color name="text_muted">#7E69AB</color>
+</resources>

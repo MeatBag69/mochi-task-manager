@@ -1,0 +1,13 @@
+[versions]
+androidGradlePlugin = "8.6.0"
+androidxCore = "1.13.1"
+androidxAppCompat = "1.6.1"
+kotlin = "2.1.0"
+
+[libraries]
+androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "androidxCore" }
+androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "androidxAppCompat" }
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }

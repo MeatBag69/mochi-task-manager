@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/widget_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_mochi_widget"
+    android:orientation="vertical"
+    android:padding="12dp">
+
+    <!-- Header: Mochi Task Manager + Live Mascot Reaction -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Mochi Task Manager"
+                android:textColor="@color/mochi_purple_dark"
+                android:textSize="13.5sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_health_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Device Health: 94/100 Excellent!"
+                android:textColor="@color/mochi_mint"
+                android:textSize="11sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <!-- Dynamic Mochi Mascot Reaction Avatar -->
+        <ImageView
+            android:id="@+id/iv_mochi_mascot"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/react_healthy" />
+
+        <TextView
+            android:id="@+id/btn_refresh"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="6dp"
+            android:background="@drawable/bg_mochi_pill"
+            android:paddingStart="8dp"
+            android:paddingTop="4dp"
+            android:paddingEnd="8dp"
+            android:paddingBottom="4dp"
+            android:text="⟳ 21:20"
+            android:textColor="@color/mochi_purple"
+            android:textSize="10.5sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <!-- Metrics Row: CPU, RAM, BAT Pills -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:orientation="horizontal">
+
+        <!-- CPU Pill -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="4dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_mochi_card"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="6dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="CPU"
+                android:textColor="@color/mochi_text_secondary"
+                android:textSize="10sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_cpu_pct"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="42%"
+                android:textColor="@color/mochi_purple"
+                android:textSize="13sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <!-- RAM Pill -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="2dp"
+            android:layout_marginEnd="2dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_mochi_card"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="6dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="RAM"
+                android:textColor="@color/mochi_text_secondary"
+                android:textSize="10sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_ram_pct"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="75%"
+                android:textColor="@color/mochi_mint"
+                android:textSize="13sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <!-- BAT Pill -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_mochi_card"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="6dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="BAT"
+                android:textColor="@color/mochi_text_secondary"
+                android:textSize="10sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_bat_pct"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="70%"
+                android:textColor="@color/mochi_peach"
+                android:textSize="13sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- RAM Details Line -->
+    <TextView
+        android:id="@+id/tv_ram_detail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:gravity="center"
+        android:text="RAM: [█████████░░░] 75% (5.4 / 7.1 GB) · 36°C"
+        android:textColor="@color/mochi_text_primary"
+        android:textSize="10.5sp"
+        android:typeface="monospace" />
+
+    <!-- Active Apps Table Header -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="RECENT ACTIVE APPS               RAM"
+        android:textColor="@color/mochi_text_muted"
+        android:textSize="9.5sp"
+        android:textStyle="bold"
+        android:typeface="monospace" />
+
+    <!-- App 1 -->
+    <TextView
+        android:id="@+id/tv_proc1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:singleLine="true"
+        android:text="● Blinkit                      174 MB"
+        android:textColor="@color/mochi_text_primary"
+        android:textSize="10.5sp"
+        android:typeface="monospace" />
+
+    <!-- App 2 -->
+    <TextView
+        android:id="@+id/tv_proc2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="1dp"
+        android:singleLine="true"
+        android:text="● WhatsApp                     231 MB"
+        android:textColor="@color/mochi_text_primary"
+        android:textSize="10.5sp"
+        android:typeface="monospace" />
+
+    <!-- App 3 -->
+    <TextView
+        android:id="@+id/tv_proc3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="1dp"
+        android:singleLine="true"
+        android:text="● One UI Home                  181 MB"
+        android:textColor="@color/mochi_text_primary"
+        android:textSize="10.5sp"
+        android:typeface="monospace" />
+
+    <!-- Animated Cute Ticker Footer (ViewFlipper with Mochi Messages) -->
+    <ViewFlipper
+        android:id="@+id/vf_cat_anim"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:autoStart="true"
+        android:flipInterval="2200">
+
+        <TextView
+            android:id="@+id/tv_reaction_status"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="✿ ( ˶•̀ᴗ•́˶) Mochi: All systems running smooth! 🐾"
+            android:textColor="@color/mochi_purple"
+            android:textSize="10.5sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="✨ 0 Spyware · 13 Trackers Removed · Fast &amp; Cool"
+            android:textColor="@color/mochi_mint"
+            android:textSize="10.5sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="ฅ^•ﻌ•^ฅ Tap widget anytime to refresh live stats"
+            android:textColor="@color/mochi_pink"
+            android:textSize="10.5sp"
+            android:textStyle="bold" />
+    </ViewFlipper>
+
+</LinearLayout>
