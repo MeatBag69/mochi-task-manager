@@ -1,401 +1,2145 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/mochi_bg"
-    android:padding="16dp">
+    android:background="@color/mochi_bg">
 
-    <LinearLayout
+    <!-- ViewFlipper holding all 7 screens -->
+    <ViewFlipper
+        android:id="@+id/view_flipper"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="match_parent"
+        android:layout_above="@id/bottom_nav_bar">
 
-        <!-- Top Header Bar with Mochi Mascot -->
-        <LinearLayout
+        <!-- ==================== SCREEN 0: HOME ==================== -->
+        <ScrollView
+            android:id="@+id/screen_home"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Mochi"
-                    android:textColor="@color/mochi_purple_dark"
-                    android:textSize="26sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Task Manager 🐾"
-                    android:textColor="@color/mochi_purple"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="2dp"
-                    android:text="Cute &amp; Powerful System Assistant"
-                    android:textColor="@color/mochi_text_secondary"
-                    android:textSize="11.5sp" />
-            </LinearLayout>
-
-            <ImageView
-                android:id="@+id/iv_home_mascot"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:scaleType="fitCenter"
-                android:src="@drawable/mochi_main" />
-        </LinearLayout>
-
-        <!-- Device Health Card (Matches Mockup) -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:background="@drawable/bg_mochi_card"
-            android:orientation="vertical"
+            android:layout_height="match_parent"
+            android:fillViewport="true"
             android:padding="16dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <!-- Top Header Bar with Interactive Mochi Mascot -->
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="❤️ Device Health"
-                    android:textColor="@color/mochi_purple_dark"
+                    android:layout_marginTop="12dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Mochi"
+                            android:textColor="@color/mochi_purple_dark"
+                            android:textSize="26sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Task Manager 🐾"
+                            android:textColor="@color/mochi_purple"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:text="A cute &amp; powerful Android monitor"
+                            android:textColor="@color/mochi_text_secondary"
+                            android:textSize="11.5sp" />
+                    </LinearLayout>
+
+                    <!-- Interactive Top Mascot (Tap 1-2 times to play animations/reactions!) -->
+                    <ImageView
+                        android:id="@+id/iv_top_mascot"
+                        android:layout_width="85dp"
+                        android:layout_height="85dp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:contentDescription="Mochi Mascot"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/mochi_main" />
+                </LinearLayout>
+
+                <!-- Device Health Card (Matching Concept 1) -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="14dp"
+                    android:background="@drawable/bg_mochi_card"
+                    android:orientation="vertical"
+                    android:padding="14dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="❤️ Device Health"
+                            android:textColor="@color/mochi_purple_dark"
+                            android:textSize="13sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tv_home_health_val"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:layout_weight="1"
+                            android:gravity="end"
+                            android:text="94/100 Excellent!"
+                            android:textColor="@color/mochi_mint"
+                            android:textSize="13.5sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <ProgressBar
+                        android:id="@+id/pb_home_health"
+                        style="?android:attr/progressBarStyleHorizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="9dp"
+                        android:layout_marginTop="8dp"
+                        android:max="100"
+                        android:progress="94"
+                        android:progressTint="@color/mochi_mint" />
+                </LinearLayout>
+
+                <!-- Dynamic Mochi Speech Card -->
+                <LinearLayout
+                    android:id="@+id/card_speech_bubble"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/bg_mochi_pill"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:padding="12dp">
+
+                    <ImageView
+                        android:id="@+id/iv_speech_mascot"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:contentDescription="Mochi reaction"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/mochi_happy" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tv_speech_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Mochi says: Healthy! (✿◠‿◠)"
+                            android:textColor="@color/mochi_purple_dark"
+                            android:textSize="12.5sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tv_speech_desc"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="All systems smooth! Tap me to play! 🐾"
+                            android:textColor="@color/mochi_text_secondary"
+                            android:textSize="11sp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!-- 6 Shortcuts Grid -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="SYSTEM TOOLS &amp; MONITORS"
+                    android:textColor="@color/mochi_text_muted"
+                    android:textSize="11sp"
+                    android:textStyle="bold" />
+
+                <!-- Row 1: Performance & Processes -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:orientation="horizontal">
+
+                    <!-- Performance Shortcut -->
+                    <LinearLayout
+                        android:id="@+id/shortcut_perf"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="6dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_mochi_card"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="14dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="📈"
+                            android:textSize="22sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:text="Performance"
+                            android:textColor="@color/mochi_purple_dark"
+                            android:textSize="11.5sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tv_home_ram_brief"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="75% RAM"
+                            android:textColor="@color/mochi_mint"
+                            android:textSize="10.5sp" />
+                    </LinearLayout>
+
+                    <!-- Processes Shortcut -->
+                    <LinearLayout
+                        android:id="@+id/shortcut_proc"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="6dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_mochi_card"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="14dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="⚙️"
+                            android:textSize="22sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:text="Processes"
+                            android:textColor="@color/mochi_purple_dark"
+                            android:textSize="11.5sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tv_home_proc_brief"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="4 Active"
+                            android:textColor="@color/mochi_purple"
+                            android:textSize="10.5sp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!-- Row 2: Battery & Storage -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:orientation="horizontal">
+
+                    <!-- Battery Shortcut -->
+                    <LinearLayout
+                        android:id="@+id/shortcut_battery"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="6dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_mochi_card"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="14dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="🔋"
+                            android:textSize="22sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:text="Battery"
+                            android:textColor="@color/mochi_purple_dark"
+                            android:textSize="11.5sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tv_home_bat_brief"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="82% ⚡"
+                            android:textColor="@color/mochi_peach"
+                            android:textSize="10.5sp" />
+                    </LinearLayout>
+
+                    <!-- Storage Shortcut -->
+                    <LinearLayout
+                        android:id="@+id/shortcut_storage"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="6dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_mochi_card"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="14dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="💾"
+                            android:textSize="22sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:text="Storage"
+                            android:textColor="@color/mochi_purple_dark"
+                            android:textSize="11.5sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tv_home_storage_brief"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="50% (128 GB)"
+                            android:textColor="@color/mochi_cyan"
+                            android:textSize="10.5sp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!-- Row 3: Device Info & Settings -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:orientation="horizontal">
+
+                    <!-- Device Info Shortcut -->
+                    <LinearLayout
+                        android:id="@+id/shortcut_device"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="6dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_mochi_card"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="14dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="📱"
+                            android:textSize="22sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:text="Galaxy S21 FE"
+                            android:textColor="@color/mochi_purple_dark"
+                            android:textSize="11.5sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="SM-G990E"
+                            android:textColor="@color/mochi_text_muted"
+                            android:textSize="10.5sp" />
+                    </LinearLayout>
+
+                    <!-- Settings Shortcut -->
+                    <LinearLayout
+                        android:id="@+id/shortcut_settings"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="6dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_mochi_card"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="14dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="⚙️"
+                            android:textSize="22sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:text="Settings"
+                            android:textColor="@color/mochi_purple_dark"
+                            android:textSize="11.5sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tv_home_theme_brief"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Themes &amp; More"
+                            android:textColor="@color/mochi_pink"
+                            android:textSize="10.5sp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!-- Boost Action Button -->
+                <Button
+                    android:id="@+id/btn_home_boost"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_marginTop="16dp"
+                    android:background="@drawable/bg_mochi_btn"
+                    android:text="✨ Boost &amp; Refresh Mochi Monitor"
+                    android:textColor="#FFFFFF"
                     android:textSize="13sp"
                     android:textStyle="bold" />
 
+                <!-- Widget Preview Card -->
                 <TextView
-                    android:id="@+id/tv_home_health_val"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_weight="1"
-                    android:gravity="end"
-                    android:text="94/100 Excellent!"
-                    android:textColor="@color/mochi_mint"
-                    android:textSize="14sp"
+                    android:layout_marginTop="20dp"
+                    android:text="MOCHI LIVE WIDGET PREVIEW"
+                    android:textColor="@color/mochi_text_muted"
+                    android:textSize="11sp"
                     android:textStyle="bold" />
+
+                <include
+                    layout="@layout/widget_cute_terminal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp" />
+
+                <!-- Bottom spacer for bottom navigation bar -->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="24dp" />
             </LinearLayout>
+        </ScrollView>
 
-            <!-- Health Bar -->
-            <ProgressBar
-                android:id="@+id/pb_health"
-                style="?android:attr/progressBarStyleHorizontal"
-                android:layout_width="match_parent"
-                android:layout_height="10dp"
-                android:layout_marginTop="8dp"
-                android:max="100"
-                android:progress="94"
-                android:progressTint="@color/mochi_mint" />
-        </LinearLayout>
-
-        <!-- Dynamic Mochi Assistant Message Card -->
-        <LinearLayout
+        <!-- ==================== SCREEN 1: PERFORMANCE ==================== -->
+        <ScrollView
+            android:id="@+id/screen_performance"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:background="@drawable/bg_mochi_pill"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:padding="12dp">
-
-            <ImageView
-                android:id="@+id/iv_reaction_mascot"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:src="@drawable/react_healthy" />
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            android:padding="16dp">
 
             <LinearLayout
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_weight="1"
                 android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/tv_mochi_speech_title"
-                    android:layout_width="wrap_content"
+                <!-- Header -->
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Mochi says: Healthy! (✿◠‿◠)"
-                    android:textColor="@color/mochi_purple_dark"
-                    android:textSize="12.5sp"
-                    android:textStyle="bold" />
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/tv_mochi_speech_desc"
-                    android:layout_width="wrap_content"
+                    <TextView
+                        android:id="@+id/btn_back_perf"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="8dp"
+                        android:text="←"
+                        android:textColor="@color/mochi_purple"
+                        android:textSize="22sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_weight="1"
+                        android:text="Performance"
+                        android:textColor="@color/mochi_purple_dark"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <ImageView
+                        android:layout_width="38dp"
+                        android:layout_height="38dp"
+                        android:src="@drawable/mochi_working" />
+                </LinearLayout>
+
+                <!-- Subtabs (Overview, CPU, RAM, GPU) -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="36dp"
+                    android:layout_marginTop="12dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tab_perf_overview"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="4dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_tab_selected"
+                        android:gravity="center"
+                        android:text="Overview"
+                        android:textColor="#FFFFFF"
+                        android:textSize="11.5sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tab_perf_cpu"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginHorizontal="4dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_tab_unselected"
+                        android:gravity="center"
+                        android:text="CPU"
+                        android:textColor="@color/mochi_purple"
+                        android:textSize="11.5sp" />
+
+                    <TextView
+                        android:id="@+id/tab_perf_ram"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginHorizontal="4dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_tab_unselected"
+                        android:gravity="center"
+                        android:text="RAM"
+                        android:textColor="@color/mochi_purple"
+                        android:textSize="11.5sp" />
+
+                    <TextView
+                        android:id="@+id/tab_perf_gpu"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="4dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_tab_unselected"
+                        android:gravity="center"
+                        android:text="GPU"
+                        android:textColor="@color/mochi_purple"
+                        android:textSize="11.5sp" />
+                </LinearLayout>
+
+                <!-- CPU Card with Wave Graph -->
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="All systems cool, 13 track/adware removed. Zero lag!"
-                    android:textColor="@color/mochi_text_secondary"
-                    android:textSize="11sp" />
+                    android:layout_marginTop="12dp"
+                    android:background="@drawable/bg_mochi_card"
+                    android:orientation="vertical"
+                    android:padding="14dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="⚡ CPU"
+                            android:textColor="@color/mochi_purple"
+                            android:textSize="13sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tv_perf_cpu_val"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:text="42%"
+                            android:textColor="@color/mochi_purple_dark"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tv_perf_cpu_freq"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="end"
+                            android:text="2.40 GHz / 2.84 GHz"
+                            android:textColor="@color/mochi_text_muted"
+                            android:textSize="11sp" />
+                    </LinearLayout>
+
+                    <com.cuteterminal.widget.MochiWaveGraphView
+                        android:id="@+id/wave_cpu"
+                        android:layout_width="match_parent"
+                        android:layout_height="64dp"
+                        android:layout_marginTop="8dp" />
+                </LinearLayout>
+
+                <!-- RAM Card with Wave Graph -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/bg_mochi_card"
+                    android:orientation="vertical"
+                    android:padding="14dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="💾 RAM"
+                            android:textColor="@color/mochi_cyan"
+                            android:textSize="13sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tv_perf_ram_val"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:text="76%"
+                            android:textColor="@color/mochi_purple_dark"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tv_perf_ram_detail"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="end"
+                            android:text="5.6 / 7.4 GB"
+                            android:textColor="@color/mochi_text_muted"
+                            android:textSize="11sp" />
+                    </LinearLayout>
+
+                    <com.cuteterminal.widget.MochiWaveGraphView
+                        android:id="@+id/wave_ram"
+                        android:layout_width="match_parent"
+                        android:layout_height="64dp"
+                        android:layout_marginTop="8dp" />
+                </LinearLayout>
+
+                <!-- GPU Card with Wave Graph -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/bg_mochi_card"
+                    android:orientation="vertical"
+                    android:padding="14dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="🎮 GPU"
+                            android:textColor="@color/mochi_pink"
+                            android:textSize="13sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:text="18%"
+                            android:textColor="@color/mochi_purple_dark"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="end"
+                            android:text="Mali-G78 / Adreno 660"
+                            android:textColor="@color/mochi_text_muted"
+                            android:textSize="11sp" />
+                    </LinearLayout>
+
+                    <com.cuteterminal.widget.MochiWaveGraphView
+                        android:id="@+id/wave_gpu"
+                        android:layout_width="match_parent"
+                        android:layout_height="64dp"
+                        android:layout_marginTop="8dp" />
+                </LinearLayout>
+
+                <!-- Temp & FPS Row -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
+
+                    <!-- Temp Card -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="6dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_mochi_card"
+                        android:orientation="vertical"
+                        android:padding="12dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="🌡️ Temperature"
+                            android:textColor="@color/mochi_peach"
+                            android:textSize="11.5sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tv_perf_temp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:text="36°C Normal"
+                            android:textColor="@color/mochi_purple_dark"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <!-- FPS Card -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="6dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_mochi_card"
+                        android:orientation="vertical"
+                        android:padding="12dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="🎯 FPS"
+                            android:textColor="@color/mochi_mint"
+                            android:textSize="11.5sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:text="120 (120Hz Screen)"
+                            android:textColor="@color/mochi_purple_dark"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!-- System Load Last 60s Card -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:background="@drawable/bg_mochi_card"
+                    android:orientation="vertical"
+                    android:padding="14dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="System Load (Last 60s)"
+                        android:textColor="@color/mochi_purple_dark"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+
+                    <com.cuteterminal.widget.MochiWaveGraphView
+                        android:id="@+id/wave_system_load"
+                        android:layout_width="match_parent"
+                        android:layout_height="90dp"
+                        android:layout_marginTop="8dp" />
+
+                    <!-- Legend -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="● CPU"
+                            android:textColor="@color/mochi_purple"
+                            android:textSize="11sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:text="● RAM"
+                            android:textColor="@color/mochi_cyan"
+                            android:textSize="11sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:text="● GPU"
+                            android:textColor="@color/mochi_pink"
+                            android:textSize="11sp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="24dp" />
             </LinearLayout>
-        </LinearLayout>
+        </ScrollView>
 
-        <!-- 8 Navigation Grid (Matches Mockup) -->
-        <TextView
+        <!-- ==================== SCREEN 2: PROCESSES ==================== -->
+        <RelativeLayout
+            android:id="@+id/screen_processes"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="SYSTEM TOOLS &amp; MONITORS"
-            android:textColor="@color/mochi_text_muted"
-            android:textSize="11sp"
-            android:textStyle="bold" />
+            android:layout_height="match_parent"
+            android:padding="16dp">
 
-        <!-- Grid Row 1 -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:orientation="horizontal">
-
-            <!-- Performance -->
             <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="6dp"
-                android:layout_weight="1"
-                android:background="@drawable/bg_mochi_card"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:padding="14dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="📈"
-                    android:textSize="22sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:text="Performance"
-                    android:textColor="@color/mochi_purple_dark"
-                    android:textSize="11.5sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/tv_grid_ram"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="75% RAM"
-                    android:textColor="@color/mochi_mint"
-                    android:textSize="10.5sp" />
-            </LinearLayout>
-
-            <!-- Processes -->
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="6dp"
-                android:layout_weight="1"
-                android:background="@drawable/bg_mochi_card"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:padding="14dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="⚙️"
-                    android:textSize="22sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:text="Processes"
-                    android:textColor="@color/mochi_purple_dark"
-                    android:textSize="11.5sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/tv_grid_proc_count"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="4 Active"
-                    android:textColor="@color/mochi_purple"
-                    android:textSize="10.5sp" />
-            </LinearLayout>
-        </LinearLayout>
-
-        <!-- Grid Row 2 -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal">
-
-            <!-- Battery -->
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="6dp"
-                android:layout_weight="1"
-                android:background="@drawable/bg_mochi_card"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:padding="14dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="🔋"
-                    android:textSize="22sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:text="Battery"
-                    android:textColor="@color/mochi_purple_dark"
-                    android:textSize="11.5sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/tv_grid_bat"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="70% ⚡"
-                    android:textColor="@color/mochi_peach"
-                    android:textSize="10.5sp" />
-            </LinearLayout>
-
-            <!-- Device Info -->
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="6dp"
-                android:layout_weight="1"
-                android:background="@drawable/bg_mochi_card"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:padding="14dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="📱"
-                    android:textSize="22sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:text="Galaxy S21 FE"
-                    android:textColor="@color/mochi_purple_dark"
-                    android:textSize="11.5sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="SM-G990E"
-                    android:textColor="@color/mochi_cyan"
-                    android:textSize="10.5sp" />
-            </LinearLayout>
-        </LinearLayout>
-
-        <!-- Live Widget Preview Section -->
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:text="MOCHI WIDGET PREVIEW"
-            android:textColor="@color/mochi_text_muted"
-            android:textSize="11sp"
-            android:textStyle="bold" />
-
-        <include
-            layout="@layout/widget_cute_terminal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp" />
-
-        <!-- Refresh Action Button -->
-        <Button
-            android:id="@+id/btn_app_refresh"
-            android:layout_width="match_parent"
-            android:layout_height="46dp"
-            android:layout_marginTop="16dp"
-            android:background="@drawable/bg_mochi_btn"
-            android:text="✨ Boost &amp; Refresh Mochi Monitor"
-            android:textColor="#FFFFFF"
-            android:textSize="13sp"
-            android:textStyle="bold" />
-
-        <!-- Permission Card -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:background="@drawable/bg_mochi_card"
-            android:orientation="vertical"
-            android:padding="14dp">
-
-            <TextView
-                android:id="@+id/tv_perm_status"
+                android:id="@+id/proc_header_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="🔓 Permission: Usage Access Active! (●'◡'●)"
-                android:textColor="@color/mochi_mint"
-                android:textSize="12sp"
-                android:textStyle="bold" />
+                android:orientation="vertical">
 
-            <Button
-                android:id="@+id/btn_grant_perm"
+                <!-- Header -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/btn_back_proc"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="8dp"
+                        android:text="←"
+                        android:textColor="@color/mochi_purple"
+                        android:textSize="22sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_weight="1"
+                        android:text="Processes"
+                        android:textColor="@color/mochi_purple_dark"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <ImageView
+                        android:layout_width="38dp"
+                        android:layout_height="38dp"
+                        android:src="@drawable/mochi_working" />
+                </LinearLayout>
+
+                <!-- Running / System Tabs -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="36dp"
+                    android:layout_marginTop="12dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tab_proc_running"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="6dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_tab_selected"
+                        android:gravity="center"
+                        android:text="Running (12)"
+                        android:textColor="#FFFFFF"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tab_proc_system"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="6dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_tab_unselected"
+                        android:gravity="center"
+                        android:text="System (18)"
+                        android:textColor="@color/mochi_purple"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <!-- Search box -->
+                <EditText
+                    android:id="@+id/et_proc_search"
+                    android:layout_width="match_parent"
+                    android:layout_height="42dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/bg_input_field"
+                    android:hint="🔍 Search running applications..."
+                    android:paddingHorizontal="14dp"
+                    android:textColor="@color/mochi_text_primary"
+                    android:textColorHint="@color/mochi_text_muted"
+                    android:textSize="12.5sp" />
+            </LinearLayout>
+
+            <!-- Scrollable Process List -->
+            <ScrollView
                 android:layout_width="match_parent"
-                android:layout_height="38dp"
+                android:layout_height="match_parent"
+                android:layout_above="@id/btn_end_task"
+                android:layout_below="@id/proc_header_layout"
                 android:layout_marginTop="8dp"
-                android:background="@drawable/bg_mochi_pill"
-                android:text="✓ Permission Granted (Active)"
-                android:textColor="@color/mochi_purple"
-                android:textSize="11.5sp"
-                android:textStyle="bold" />
-        </LinearLayout>
+                android:fillViewport="true">
 
-        <!-- How to Add Widget Card -->
-        <LinearLayout
+                <LinearLayout
+                    android:id="@+id/ll_proc_list_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" />
+            </ScrollView>
+
+            <!-- Floating End Task Button -->
+            <Button
+                android:id="@+id/btn_end_task"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/bg_mochi_btn"
+                android:text="✂️ End Task &amp; Boost Memory"
+                android:textColor="#FFFFFF"
+                android:textSize="13sp"
+                android:textStyle="bold" />
+        </RelativeLayout>
+
+        <!-- ==================== SCREEN 3: BATTERY ==================== -->
+        <ScrollView
+            android:id="@+id/screen_battery"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="32dp"
-            android:background="@drawable/bg_mochi_card"
-            android:orientation="vertical"
-            android:padding="14dp">
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            android:padding="16dp">
 
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="📌 How to add Mochi to Home Screen:"
+                android:orientation="vertical">
+
+                <!-- Header -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/btn_back_bat"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="8dp"
+                        android:text="←"
+                        android:textColor="@color/mochi_purple"
+                        android:textSize="22sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_weight="1"
+                        android:text="Battery"
+                        android:textColor="@color/mochi_purple_dark"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <ImageView
+                        android:layout_width="38dp"
+                        android:layout_height="38dp"
+                        android:src="@drawable/mochi_charging" />
+                </LinearLayout>
+
+                <!-- Big Battery Status Card with Mascot -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:background="@drawable/bg_mochi_card"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="18dp">
+
+                    <ImageView
+                        android:id="@+id/iv_battery_mascot"
+                        android:layout_width="110dp"
+                        android:layout_height="110dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/mochi_protect_1" />
+
+                    <TextView
+                        android:id="@+id/tv_battery_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="85% Charging ⚡"
+                        android:textColor="@color/mochi_purple_dark"
+                        android:textSize="24sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_battery_protection_badge"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:background="@drawable/bg_mochi_pill"
+                        android:paddingHorizontal="12dp"
+                        android:paddingVertical="4dp"
+                        android:text="🛡️ Samsung Battery Protection Active (Capped at 85%)"
+                        android:textColor="@color/mochi_purple"
+                        android:textSize="11sp"
+                        android:textStyle="bold" />
+
+                    <!-- Metrics row -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/tv_bat_temp_metric"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="32°C"
+                                android:textColor="@color/mochi_purple_dark"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Temperature"
+                                android:textColor="@color/mochi_text_muted"
+                                android:textSize="10.5sp" />
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="24dp"
+                            android:background="@color/mochi_card_stroke" />
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Good (99%)"
+                                android:textColor="@color/mochi_mint"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Battery Health"
+                                android:textColor="@color/mochi_text_muted"
+                                android:textSize="10.5sp" />
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="24dp"
+                            android:background="@color/mochi_card_stroke" />
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/tv_bat_remaining"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="5h 42m"
+                                android:textColor="@color/mochi_purple_dark"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Remaining"
+                                android:textColor="@color/mochi_text_muted"
+                                android:textSize="10.5sp" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!-- Usage Last 24 Hours Bar Chart -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:background="@drawable/bg_mochi_card"
+                    android:orientation="vertical"
+                    android:padding="14dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Usage (Last 24 Hours)"
+                        android:textColor="@color/mochi_purple_dark"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+
+                    <com.cuteterminal.widget.MochiBarChartView
+                        android:id="@+id/chart_battery_history"
+                        android:layout_width="match_parent"
+                        android:layout_height="90dp"
+                        android:layout_marginTop="8dp" />
+                </LinearLayout>
+
+                <!-- Battery App Breakdown -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:background="@drawable/bg_mochi_card"
+                    android:orientation="vertical"
+                    android:padding="14dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Top Battery Consumers"
+                        android:textColor="@color/mochi_purple_dark"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+
+                    <!-- App 1: Screen -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="📱 Screen (120Hz AMOLED)"
+                            android:textColor="@color/mochi_text_primary"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="28.4%"
+                            android:textColor="@color/mochi_purple"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <!-- App 2: YouTube -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="▶️ YouTube"
+                            android:textColor="@color/mochi_text_primary"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="12.1%"
+                            android:textColor="@color/mochi_pink"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <!-- App 3: Chrome -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="🌐 Google Chrome"
+                            android:textColor="@color/mochi_text_primary"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="8.7%"
+                            android:textColor="@color/mochi_cyan"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="24dp" />
+            </LinearLayout>
+        </ScrollView>
+
+        <!-- ==================== SCREEN 4: STORAGE ==================== -->
+        <ScrollView
+            android:id="@+id/screen_storage"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            android:padding="16dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <!-- Header -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/btn_back_storage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="8dp"
+                        android:text="←"
+                        android:textColor="@color/mochi_purple"
+                        android:textSize="22sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_weight="1"
+                        android:text="Storage"
+                        android:textColor="@color/mochi_purple_dark"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <ImageView
+                        android:layout_width="38dp"
+                        android:layout_height="38dp"
+                        android:src="@drawable/mochi_happy" />
+                </LinearLayout>
+
+                <!-- Donut Chart & Category Breakdown Card -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:background="@drawable/bg_mochi_card"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <com.cuteterminal.widget.MochiDonutChartView
+                        android:id="@+id/chart_storage_donut"
+                        android:layout_width="160dp"
+                        android:layout_height="160dp"
+                        android:layout_gravity="center" />
+
+                    <!-- Storage Legend Breakdown -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="14dp"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="🟣 Apps: 62.4 GB"
+                                android:textColor="@color/mochi_purple"
+                                android:textSize="11.5sp" />
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="🌸 Images: 18.7 GB"
+                                android:textColor="@color/mochi_pink"
+                                android:textSize="11.5sp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="6dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="🔵 Videos: 24.1 GB"
+                                android:textColor="@color/mochi_cyan"
+                                android:textSize="11.5sp" />
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="🟢 Audio: 5.2 GB"
+                                android:textColor="@color/mochi_mint"
+                                android:textSize="11.5sp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="6dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="🟠 Documents: 3.6 GB"
+                                android:textColor="@color/mochi_peach"
+                                android:textSize="11.5sp" />
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="⚪ Other: 14.0 GB"
+                                android:textColor="@color/mochi_text_muted"
+                                android:textSize="11.5sp" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!-- Analyze & Clean Button -->
+                <Button
+                    android:id="@+id/btn_clean_storage"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_marginTop="14dp"
+                    android:background="@drawable/bg_mochi_btn"
+                    android:text="🧹 Analyze &amp; Clean Storage"
+                    android:textColor="#FFFFFF"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+
+                <!-- Cleanable Categories Grid -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:orientation="horizontal">
+
+                    <!-- Junk Files -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="6dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_mochi_card"
+                        android:orientation="vertical"
+                        android:padding="12dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="🗑️ Junk Files"
+                            android:textColor="@color/mochi_purple_dark"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:text="1.2 GB"
+                            android:textColor="@color/mochi_pink"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <!-- Large Files -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="6dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_mochi_card"
+                        android:orientation="vertical"
+                        android:padding="12dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="📦 Large Files"
+                            android:textColor="@color/mochi_purple_dark"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:text="5.8 GB"
+                            android:textColor="@color/mochi_cyan"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:orientation="horizontal">
+
+                    <!-- Duplicates -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="6dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_mochi_card"
+                        android:orientation="vertical"
+                        android:padding="12dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="📑 Duplicates"
+                            android:textColor="@color/mochi_purple_dark"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:text="1.1 GB"
+                            android:textColor="@color/mochi_peach"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <!-- Cache -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="6dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_mochi_card"
+                        android:orientation="vertical"
+                        android:padding="12dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="⚡ App Cache"
+                            android:textColor="@color/mochi_purple_dark"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:text="643 MB"
+                            android:textColor="@color/mochi_mint"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="24dp" />
+            </LinearLayout>
+        </ScrollView>
+
+        <!-- ==================== SCREEN 5: DEVICE INFO ==================== -->
+        <ScrollView
+            android:id="@+id/screen_device_info"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            android:padding="16dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <!-- Header -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/btn_back_info"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="8dp"
+                        android:text="←"
+                        android:textColor="@color/mochi_purple"
+                        android:textSize="22sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_weight="1"
+                        android:text="Device Info"
+                        android:textColor="@color/mochi_purple_dark"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <ImageView
+                        android:layout_width="38dp"
+                        android:layout_height="38dp"
+                        android:src="@drawable/mochi_main" />
+                </LinearLayout>
+
+                <!-- Phone Banner -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:background="@drawable/bg_mochi_card"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:padding="14dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="📱"
+                        android:textSize="36sp" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Samsung Galaxy S21 FE 5G"
+                            android:textColor="@color/mochi_purple_dark"
+                            android:textSize="15sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Model: SM-G990E (Exynos 2100 / 888)"
+                            android:textColor="@color/mochi_text_secondary"
+                            android:textSize="11.5sp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!-- Specs List -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:background="@drawable/bg_mochi_card"
+                    android:orientation="vertical"
+                    android:padding="14dp">
+
+                    <!-- Processor -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="🧠 Processor"
+                        android:textColor="@color/mochi_purple"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="Exynos 2100 / Snapdragon 888 (8 cores, up to 2.84 GHz)"
+                        android:textColor="@color/mochi_text_primary"
+                        android:textSize="12sp" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginVertical="8dp"
+                        android:background="@color/mochi_card_stroke" />
+
+                    <!-- Memory -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="💾 RAM"
+                        android:textColor="@color/mochi_cyan"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="8 GB LPDDR5 (Fast Dual Channel)"
+                        android:textColor="@color/mochi_text_primary"
+                        android:textSize="12sp" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginVertical="8dp"
+                        android:background="@color/mochi_card_stroke" />
+
+                    <!-- Storage -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="📦 Internal Storage"
+                        android:textColor="@color/mochi_pink"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="256 GB UFS 3.1"
+                        android:textColor="@color/mochi_text_primary"
+                        android:textSize="12sp" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginVertical="8dp"
+                        android:background="@color/mochi_card_stroke" />
+
+                    <!-- Display -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="🖥️ Display"
+                        android:textColor="@color/mochi_mint"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="6.4&quot; Dynamic AMOLED 2X · 2400 × 1080 · 120Hz"
+                        android:textColor="@color/mochi_text_primary"
+                        android:textSize="12sp" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginVertical="8dp"
+                        android:background="@color/mochi_card_stroke" />
+
+                    <!-- Android OS -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="🤖 Operating System"
+                        android:textColor="@color/mochi_peach"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="Android 16 · One UI 7.0 (SDK API 36)"
+                        android:textColor="@color/mochi_text_primary"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="24dp" />
+            </LinearLayout>
+        </ScrollView>
+
+        <!-- ==================== SCREEN 6: SETTINGS ==================== -->
+        <ScrollView
+            android:id="@+id/screen_settings"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            android:padding="16dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <!-- Header -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/btn_back_settings"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="8dp"
+                        android:text="←"
+                        android:textColor="@color/mochi_purple"
+                        android:textSize="22sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_weight="1"
+                        android:text="Settings"
+                        android:textColor="@color/mochi_purple_dark"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <ImageView
+                        android:layout_width="38dp"
+                        android:layout_height="38dp"
+                        android:src="@drawable/mochi_main" />
+                </LinearLayout>
+
+                <!-- Theme Selection Card -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:background="@drawable/bg_mochi_card"
+                    android:orientation="vertical"
+                    android:padding="14dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="🎨 Theme &amp; Appearance"
+                        android:textColor="@color/mochi_purple_dark"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_settings_current_theme"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="Current: System Default (Auto Light / Dark)"
+                        android:textColor="@color/mochi_text_secondary"
+                        android:textSize="11.5sp" />
+
+                    <!-- 3 Theme Options -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="38dp"
+                        android:layout_marginTop="12dp"
+                        android:orientation="horizontal">
+
+                        <Button
+                            android:id="@+id/btn_theme_system"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginEnd="4dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/bg_tab_selected"
+                            android:text="🌓 System"
+                            android:textColor="#FFFFFF"
+                            android:textSize="11sp"
+                            android:textStyle="bold" />
+
+                        <Button
+                            android:id="@+id/btn_theme_light"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginHorizontal="4dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/bg_tab_unselected"
+                            android:text="🌸 Light"
+                            android:textColor="@color/mochi_purple"
+                            android:textSize="11sp" />
+
+                        <Button
+                            android:id="@+id/btn_theme_dark"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="4dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/bg_tab_unselected"
+                            android:text="🌙 Dark"
+                            android:textColor="@color/mochi_purple"
+                            android:textSize="11sp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!-- First-Launch Dialog Replay Button -->
+                <Button
+                    android:id="@+id/btn_show_welcome_dialog"
+                    android:layout_width="match_parent"
+                    android:layout_height="44dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/bg_mochi_card"
+                    android:text="👋 Show First-Launch Theme Welcome Card"
+                    android:textColor="@color/mochi_purple"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+
+                <!-- Mochi Assistant Reactions Card -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:background="@drawable/bg_mochi_card"
+                    android:orientation="vertical"
+                    android:padding="14dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="🐾 Mochi Mascot Settings"
+                        android:textColor="@color/mochi_purple_dark"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:text="✓ Top Mascot Poke Animation: 4 Variations (Active)"
+                        android:textColor="@color/mochi_mint"
+                        android:textSize="11.5sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="✓ Battery Evolution (&lt;15%, 25%, 55%, 85%, 100%): 3 Variations each"
+                        android:textColor="@color/mochi_text_primary"
+                        android:textSize="11.5sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="✓ Samsung Protect Battery: Knight with Armor &amp; Spear"
+                        android:textColor="@color/mochi_purple"
+                        android:textSize="11.5sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="✓ Charger Disconnected: Auto transition to active"
+                        android:textColor="@color/mochi_cyan"
+                        android:textSize="11.5sp" />
+                </LinearLayout>
+
+                <!-- About & Repo Card -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:background="@drawable/bg_mochi_card"
+                    android:orientation="vertical"
+                    android:padding="14dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="ℹ️ About Mochi Task Manager"
+                        android:textColor="@color/mochi_purple_dark"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Version 1.0 (Build 2026)\nOfficial GitHub: github.com/MeatBag69/mochi-task-manager\nCreated for Samsung Galaxy S21 FE 5G"
+                        android:textColor="@color/mochi_text_secondary"
+                        android:textSize="11.5sp" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="24dp" />
+            </LinearLayout>
+        </ScrollView>
+    </ViewFlipper>
+
+    <!-- ==================== PERSISTENT BOTTOM NAVIGATION BAR ==================== -->
+    <LinearLayout
+        android:id="@+id/bottom_nav_bar"
+        android:layout_width="match_parent"
+        android:layout_height="62dp"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/bg_mochi_card"
+        android:elevation="12dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingHorizontal="4dp">
+
+        <!-- 1. Home Nav Item -->
+        <LinearLayout
+            android:id="@+id/nav_item_home"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="🏠"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/tv_nav_home"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Home"
                 android:textColor="@color/mochi_purple"
-                android:textSize="12sp"
+                android:textSize="10.5sp"
                 android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="6dp"
-                android:text="1. Long-press on an empty spot on your Home Screen\n2. Tap 'Widgets'\n3. Find 'Mochi Task Manager 🐾'\n4. Drag the widget onto your home screen!\n5. Mochi will dynamically react to your phone's battery, temperature and memory!"
-                android:textColor="@color/mochi_text_primary"
-                android:textSize="11sp" />
         </LinearLayout>
 
+        <!-- 2. Performance Nav Item -->
+        <LinearLayout
+            android:id="@+id/nav_item_perf"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="📈"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/tv_nav_perf"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Perf"
+                android:textColor="@color/mochi_text_muted"
+                android:textSize="10.5sp" />
+        </LinearLayout>
+
+        <!-- 3. Processes Nav Item -->
+        <LinearLayout
+            android:id="@+id/nav_item_proc"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="⚙️"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/tv_nav_proc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Apps"
+                android:textColor="@color/mochi_text_muted"
+                android:textSize="10.5sp" />
+        </LinearLayout>
+
+        <!-- 4. Battery Nav Item -->
+        <LinearLayout
+            android:id="@+id/nav_item_battery"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="🔋"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/tv_nav_battery"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Battery"
+                android:textColor="@color/mochi_text_muted"
+                android:textSize="10.5sp" />
+        </LinearLayout>
+
+        <!-- 5. Storage Nav Item -->
+        <LinearLayout
+            android:id="@+id/nav_item_storage"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="💾"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/tv_nav_storage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Storage"
+                android:textColor="@color/mochi_text_muted"
+                android:textSize="10.5sp" />
+        </LinearLayout>
+
+        <!-- 6. Settings Nav Item -->
+        <LinearLayout
+            android:id="@+id/nav_item_settings"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="🛠️"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/tv_nav_settings"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Settings"
+                android:textColor="@color/mochi_text_muted"
+                android:textSize="10.5sp" />
+        </LinearLayout>
     </LinearLayout>
-</ScrollView>
+
+</RelativeLayout>
